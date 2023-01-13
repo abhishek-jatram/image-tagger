@@ -5,7 +5,10 @@ Building the system using bottom-to-top approach.
 Lower level components such as Tensors, NNInterface needs to be built first. For now reliability on largers thirdparty components such as tensorflow etc can be avoided, we could define place holders for them and return a predefined values.
 
 For now only one tagger (**scene tagger**) can be targed which uses only **image classifier**. 
-The build can be based on make, so modify **Makefile** on each component development. It is good practice to have tests for all the components.
+The build can be based on make, so need to define and update **Makefile**s. It is good practice to have tests for all the components.
+
+- [x] Define structure of the project
+- [ ] Develop the system
 
 The following components are to be developed in this phase:
 - [ ] Tensor
@@ -18,6 +21,9 @@ The following components are to be developed in this phase:
 - [ ] SceneTagger
 - [ ] TaggerFactory
 - [ ] Engine
+
+### Notes
+- For implementing Tensor3D<type>, https://github.com/maitek/tensor-cpp/blob/master/tensor.hpp could be referred.
 
 ## Phase-2
 To demonstrate extensibility of the system, have decorators/wrappers defined around ImageClassifier.
