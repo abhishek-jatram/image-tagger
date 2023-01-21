@@ -10,6 +10,9 @@ The build can be based on make, so need to define and update **Makefile**s. It i
 - [x] Define structure of the project
 - [ ] Develop the system
 
+- [x] Define structure of the project
+- [ ] Develop the system
+
 The following components are to be developed in this phase:
 - [ ] Tensor
 - [ ] Context, Config
