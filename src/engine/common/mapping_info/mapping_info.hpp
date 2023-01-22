@@ -4,6 +4,6 @@
 
 class MappingInfo {
 public:
-    virtual MappingInfo(std::string mapping_data);
+    MappingInfo(std::string mapping_data){};
 };
 #endif // __MAPPING_INFO__

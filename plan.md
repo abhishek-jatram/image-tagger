@@ -8,12 +8,18 @@ For now only one tagger (**scene tagger**) can be targed which uses only **image
 The build can be based on make, so need to define and update **Makefile**s. It is good practice to have tests for all the components.
 
 - [x] Define structure of the project
-- [ ] Develop the system
+- [ ] Integrate thirdparty dependencies
+    - [ ] OpenCV
+    - [ ] Json parser
+    - [ ] TensorflowLite
+    - [ ] Tensorflow
+    - [ ] GTest
+- [ ] Develop the build system
 
 The following components are to be developed in this phase:
 - [X] Tensor
 - [X] Context, Config
-- [ ] NNInterface
+- [X] NNInterface
 - [ ] ImageClassifier
 - [ ] MappingInfo
 - [ ] ImageTagMapper
