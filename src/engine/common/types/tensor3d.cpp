@@ -93,7 +93,7 @@ Tensor3D<T> Tensor3D<T>::Transpose(Dimension dim1, Dimension dim2, Dimension dim
             return (*this)(j,k,i);
         };
     // XYZ -> ZXY
-    if (dim1 == Dimension::Z && dim2 == Dimension::X && dim3 == Dimension::Y)
+    if (dim1 == Dimension::Z && dim2 == Dimension::X && dim3 == Dimension::Y){}
         transposed_value = [&](int i, int j, int k) -> T& {
             return (*this)(k,i,j);
         };

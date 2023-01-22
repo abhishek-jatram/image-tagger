@@ -12,7 +12,7 @@ The build can be based on make, so need to define and update **Makefile**s. It i
 
 The following components are to be developed in this phase:
 - [X] Tensor
-- [ ] Context, Config
+- [X] Context, Config
 - [ ] NNInterface
 - [ ] ImageClassifier
 - [ ] MappingInfo
@@ -35,6 +35,8 @@ Integrate **tensorflow** with NNInterface and execute the engine on actual model
 - [ ] Link tensorflow lite c++ library (https://www.tensorflow.org/lite/api_docs/cc)
 - [ ] Get a simple image classifier model and manually develop the mapping data using the labels from model
 - [ ] Execute model on real image to get the output tags
+
+- [ ] Add logger
 
 ## Next Phases
 - [ ] Adding ObjectDetector components

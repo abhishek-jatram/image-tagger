@@ -3,8 +3,7 @@ PROJDIR := $(realpath $(CURDIR)/../../..)
 BUILDDIR = $(PROJDIR)/build
 LIBRARY := $(BUILDDIR)/libs/$(LIBRARY_NAME)
 
-
-SOURCEDIR = types#. mapping_info nn_interface types utils
+SOURCEDIR = $(PROJDIR)/src/engine/common
 OBJECTSDIR = $(BUILDDIR)/objects
 
 INC_DIRS := $(shell find $(SOURCEDIR) -type d)
@@ -14,16 +13,15 @@ CXX = g++
 CXXFLAGS = -g -std=c++11 -Wall -c
 CXXFLAGS += $(INC_FLAGS) -MMD -MP
 
-SOURCES = $(wildcard $(SOURCEDIR)/*.cpp)
-# SOURCES := $(shell find $(SOURCEDIR) -name '*.cpp' -or -name '*.c' -or -name '*.s')
-OBJECTS = $(patsubst $(SOURCEDIR)/%.cpp,$(BUILDDIR)/objects/%.o,$(SOURCES))
+SOURCES := $(shell find $(SOURCEDIR) -name '*.cpp' -or -name '*.c' -or -name '*.s')
+OBJECTS = $(addprefix $(OBJECTSDIR), $(patsubst $(PROJDIR)%.cpp,%.o,$(SOURCES)))
 # OBJECTS := $(patsubst $(D)/%.cpp.o,$(D)/%.o,$(SOURCES:%=$(BUILDDIR)/%.o))
 
 all: dir $(LIBRARY)
 
 dir:
 	mkdir -p $(BUILDDIR)/libs
-	mkdir -p $(BUILDDIR)/objects
+	mkdir -p $(OBJECTSDIR)
 
 $(LIBRARY): $(OBJECTS)
 	ar ru $@ $^
@@ -32,8 +30,10 @@ $(LIBRARY): $(OBJECTS)
 # $(EXECUTABLE): $(OBJECTS)
 # 	$(CXX) $^ -o $@
 
-$(OBJECTS): $(BUILDDIR)/objects/%.o : $(SOURCEDIR)/%.cpp
+$(OBJECTS): $(OBJECTSDIR)/%.o : $(PROJDIR)/%.cpp
+	mkdir -p $(dir $@)
 	$(CXX) $(CXXFLAGS) $< -o $@
 
 clean:
-	rm -rf $(BUILDDIR)/*
+	rm -f $(OBJECTS)
+	rm -r $(LIBRARY)
