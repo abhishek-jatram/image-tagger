@@ -10,7 +10,7 @@ INC_DIRS := $(shell find $(SOURCEDIR) -type d)
 INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 
 CXX = g++
-CXXFLAGS = -g -std=c++11 -Wall -c
+CXXFLAGS = -g -std=c++14 -Wall -c
 CXXFLAGS += $(INC_FLAGS) -MMD -MP
 
 SOURCES := $(shell find $(SOURCEDIR) -name '*.cpp' -or -name '*.c' -or -name '*.s')
