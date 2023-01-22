@@ -5,6 +5,8 @@ LIBRARY := $(BUILDDIR)/libs/$(LIBRARY_NAME)
 
 
 SOURCEDIR = types#. mapping_info nn_interface types utils
+OBJECTSDIR = $(BUILDDIR)/objects
+
 INC_DIRS := $(shell find $(SOURCEDIR) -type d)
 INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 
@@ -16,9 +18,6 @@ SOURCES = $(wildcard $(SOURCEDIR)/*.cpp)
 # SOURCES := $(shell find $(SOURCEDIR) -name '*.cpp' -or -name '*.c' -or -name '*.s')
 OBJECTS = $(patsubst $(SOURCEDIR)/%.cpp,$(BUILDDIR)/objects/%.o,$(SOURCES))
 # OBJECTS := $(patsubst $(D)/%.cpp.o,$(D)/%.o,$(SOURCES:%=$(BUILDDIR)/%.o))
-
-$(info $(SOURCES))
-$(info $(OBJECTS))
 
 all: dir $(LIBRARY)
 
