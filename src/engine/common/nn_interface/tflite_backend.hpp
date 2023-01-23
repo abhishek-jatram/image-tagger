@@ -9,7 +9,7 @@ public:
     ~TFLiteBackend();
     bool Initialize();
     bool Invoke(float* input);
-    bool FetchOutput(float** output, size_t& w, size_t& h, size_t& d);
+    bool FetchOutput(const std::string& layer_name, float** output, size_t& w, size_t& h, size_t& d);
 private:
     std::string model_path_;
 };

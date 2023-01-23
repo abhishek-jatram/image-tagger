@@ -36,14 +36,16 @@ bool NNInterface::Run(std::shared_ptr<Tensor3D<float>> input_tensor) {
     return true;
 }
 
-bool NNInterface::GetOutput(std::shared_ptr<Tensor3D<float>>& output_tensor) {
+std::vector<Tensor3D<float>> 
+        NNInterface::GetOutput(const std::vector<std::string> output_layer_names) {
+    std::vector<Tensor3D<float>> output;
     if (state_ == State::RUNNING) {
         LOG("Wait for model exeuction to complete. Retry fetching output in sometime");
-        return false;
+        return {};
     }
     if (state_ == State::INITIALIZATION_FAILED) {
         LOG("Cannot fetch output, model initilization failed");
-        return false;
+        return {};
     }
     if (state_ == State::READY_TO_RUN) {
         LOG("Results already fetched");
@@ -52,14 +54,21 @@ bool NNInterface::GetOutput(std::shared_ptr<Tensor3D<float>>& output_tensor) {
     if(model_config_.platform == ModelPlatform::TENSORFLOWLITE) {
         float* data;
         size_t w,h,d;
-        bool status = tflite_backend_->FetchOutput(&data, w, h, d);
-        if (!status) return status;
-        output_tensor = std::make_shared<Tensor3D<float>>(w,h,d, data, true);
-        delete data;
+        for (std::string layer_name: output_layer_names) {
+            bool status = tflite_backend_->FetchOutput(layer_name, &data, w, h, d);
+            if (!status) {
+                LOG("The requested layer %s cannot be fetched, aborting fetching of layers", layer_name.c_str());
+                return {};
+            }
+            Tensor3D<float> output_tensor = 
+                Tensor3D<float>(w,h,d, data, true);
+            output.push_back(output_tensor);
+            delete data;
+        }
     }
 
     state_ = State::READY_TO_RUN;
-    return true;
+    return output;
 }
 
 NNInterface::~NNInterface() {

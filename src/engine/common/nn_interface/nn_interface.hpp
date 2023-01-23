@@ -10,9 +10,9 @@ class NNInterface {
 public:
     NNInterface(const ModelConfig& model_config);
     bool Initialize(); // TODO: Define an asynchronous version
-    bool Run(std::shared_ptr<Tensor3D<float>> input_tensor); // TODO: Define an asynchronous version
+    bool Run(std::shared_ptr<Tensor3D<float>> input_tensor); // TODO: Define an asynchronous version | Assuming single input
     // bool Run(cv::Mat& input_tensor); // TODO: integrate opencv
-    bool GetOutput(std::shared_ptr<Tensor3D<float>>& output_tensor);
+    std::vector<Tensor3D<float>> GetOutput(const std::vector<std::string> output_layer_names);
     ~NNInterface();
 
 private:
