@@ -1,14 +1,20 @@
-LIBRARY_NAME = libcommon.a
+TARGET_LIBRARY_NAME = libframework.a
 PROJDIR := $(realpath $(CURDIR)/../../..)
 BUILDDIR = $(PROJDIR)/build
-LIBRARY := $(BUILDDIR)/libs/$(LIBRARY_NAME)
+TARGET_LIBRARY := $(BUILDDIR)/libs/$(TARGET_LIBRARY_NAME)
 
-SOURCEDIR = $(PROJDIR)/src/engine/common
+SOURCEDIR = $(PROJDIR)/src/engine/framework
 OBJECTSDIR = $(BUILDDIR)/objects
 
 INC_DIRS := $(shell find $(SOURCEDIR) -type d)
 INC_FLAGS := $(addprefix -I,$(INC_DIRS))
+INC_FLAGS += -I$(PROJDIR)/src/engine/
 
+LOCAL_LIBS_DIR = $(BUILDDIR)/libs
+LOCAL_LIBS = libcommon.a
+LOCAL_LIB_FLAGS = -L$(LOCAL_LIBS_DIR) $(addprefix -l,$(LOCAL_LIBS))
+
+# OpenCV related
 OPENCV_INC = /usr/local/include/opencv4
 OPENCV_LIB_DIR = /usr/local/lib/
 OPENCV_LIBS = opencv_core opencv_imgproc
@@ -25,17 +31,17 @@ SOURCES := $(shell find $(SOURCEDIR) -name '*.cpp' -or -name '*.c' -or -name '*.
 OBJECTS = $(addprefix $(OBJECTSDIR), $(patsubst $(PROJDIR)%.cpp,%.o,$(SOURCES)))
 # OBJECTS := $(patsubst $(D)/%.cpp.o,$(D)/%.o,$(SOURCES:%=$(BUILDDIR)/%.o))
 
-all: dir $(LIBRARY)
+all: dir $(TARGET_LIBRARY)
 
 dir:
 	mkdir -p $(BUILDDIR)/libs
 	mkdir -p $(OBJECTSDIR)
 
-$(LIBRARY): $(OBJECTS)
+$(TARGET_LIBRARY): $(OBJECTS)
 	ar ru $@ $^
 	ranlib $@
 
-# $(EXECUTABLE): $(OBJECTS)
+# $(TARGET_EXECUTABLE): $(OBJECTS)
 # 	$(CXX) $^ -o $@
 
 $(OBJECTS): $(OBJECTSDIR)/%.o : $(PROJDIR)/%.cpp
@@ -44,4 +50,4 @@ $(OBJECTS): $(OBJECTSDIR)/%.o : $(PROJDIR)/%.cpp
 
 clean:
 	rm -f $(OBJECTS)
-	rm -r $(LIBRARY)
+	rm -r $(TARGET_LIBRARY)

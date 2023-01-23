@@ -15,7 +15,7 @@ public:
     ~Tensor3D();
 
     size_t size() const;
-    T* data() const;
+    T* data();
     size_t GetLength(Dimension dimension) const;
 
     Tensor3D<T> Transpose(Dimension dim1, Dimension dim2, Dimension dim3);

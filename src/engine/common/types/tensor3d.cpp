@@ -51,7 +51,7 @@ size_t Tensor3D<T>::size() const{
 }
 
 template <typename T>
-T* Tensor3D<T>::data() const{
+T* Tensor3D<T>::data() {
     return this->data_;
 }
 

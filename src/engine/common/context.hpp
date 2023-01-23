@@ -45,6 +45,7 @@ class Context {
 private:
     std::unordered_map<std::string, std::shared_ptr<ModelConfig>> model_config_map_;
 public:
+    Context(){};
     // ModelConfig LoadConfig(std::string config_path); // TODO: Load the config from a file provided externally
     std::shared_ptr<ModelConfig> GetModelConfig(const std::string& model_name);
     void AddModelConfig(const std::string& model_name, std::shared_ptr<ModelConfig> model_config);
