@@ -1,22 +1,28 @@
 #include "nn_interface.hpp"
+#include "utils/image_utils.hpp"
 
-NNInterface::NNInterface(const ModelConfig& model_config): model_config_(model_config) {
+NNInterface::NNInterface(const std::shared_ptr<ModelConfig>& model_config){
+    model_config_ = model_config;
     state_ = State::INITIALIZING;
-    if(model_config_.platform == ModelPlatform::TENSORFLOWLITE) {
-        tflite_backend_ = std::make_unique<TFLiteBackend>(model_config.path);
+    if(model_config_->platform == ModelPlatform::TENSORFLOWLITE) {
+        tflite_backend_ = std::make_unique<TFLiteBackend>(model_config->path);
     }
+}
+
+NNInterface::~NNInterface() {
+    state_ = State::NONE;
 }
 
 bool NNInterface::Initialize() {
     if (state_ == State::READY_TO_RUN) {
         return true;
     }
-    if(model_config_.platform == ModelPlatform::TENSORFLOWLITE) {
+    if(model_config_->platform == ModelPlatform::TENSORFLOWLITE) {
         bool status = tflite_backend_->Initialize();
         state_ = status ? State::INITIALIZATION_FAILED : State::READY_TO_RUN;
     }
     else {
-        LOG("NNInterface does not support the requested platform (%s) yet", kModelPlatformStr[model_config_.platform]);
+        LOG("NNInterface does not support the requested platform (%s) yet", kModelPlatformStr[static_cast<int>(model_config_->platform)].c_str());
     }
     return true;
 }
@@ -27,13 +33,22 @@ bool NNInterface::Run(std::shared_ptr<Tensor3D<float>> input_tensor) {
         return false;
     }
     state_ = State::RUNNING;
-    if(model_config_.platform == ModelPlatform::TENSORFLOWLITE) {
+    if(model_config_->platform == ModelPlatform::TENSORFLOWLITE) {
         if (!input_tensor) return false;
         bool status = tflite_backend_->Invoke(input_tensor->data());
         if (!status) return false;
     }
     state_ = State::READY_TO_FETCH;
     return true;
+}
+
+bool NNInterface::Run(cv::Mat& input_image) {
+    // Resize image to input size if not there already
+    std::shared_ptr<Tensor3D<float>> input_tensor;
+    bool status = ImageUtils::ConvertMatToTensor3D(input_image, input_tensor);
+    if (!status) return false;
+
+    return Run(input_tensor);    
 }
 
 std::vector<Tensor3D<float>> 
@@ -51,7 +66,7 @@ std::vector<Tensor3D<float>>
         LOG("Results already fetched");
     }
 
-    if(model_config_.platform == ModelPlatform::TENSORFLOWLITE) {
+    if(model_config_->platform == ModelPlatform::TENSORFLOWLITE) {
         float* data;
         size_t w,h,d;
         for (std::string layer_name: output_layer_names) {
@@ -69,8 +84,4 @@ std::vector<Tensor3D<float>>
 
     state_ = State::READY_TO_RUN;
     return output;
-}
-
-NNInterface::~NNInterface() {
-    state_ = State::NONE;
 }

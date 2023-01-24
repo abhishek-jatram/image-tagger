@@ -15,7 +15,7 @@ public:
         context_(context), model_name_(model_name) {}
     virtual ~Tagger() {}
     virtual std::vector<T> Execute(cv::Mat image);
-private:
+protected:
     Context context_;
     std::string model_name_;
 };

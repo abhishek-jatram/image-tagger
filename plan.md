@@ -10,7 +10,7 @@ The build can be based on make, so need to define and update **Makefile**s. It i
 - [x] Define structure of the project
 - [ ] Integrate thirdparty dependencies
     - [X] OpenCV
-    - [ ] Json parser
+    - [X] Json parser
     - [ ] TensorflowLite
     - [ ] Tensorflow
     - [ ] GTest
@@ -21,8 +21,8 @@ The following components are to be developed in this phase:
 - [X] Context, Config
 - [X] NNInterface
 - [X] Framework
-- [ ] ImageClassifier
-- [ ] MappingInfo
+- [X] MappingInfo
+- [X] ImageClassifier
 - [ ] ImageTagMapper
 - [ ] ImageTagFilter
 - [ ] SceneTagger

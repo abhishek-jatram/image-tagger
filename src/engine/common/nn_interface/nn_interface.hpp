@@ -2,21 +2,22 @@
 #define __NN_INTERFACE__
 
 #include "context.hpp"
-#include <memory>
 #include "tflite_backend.hpp"
 #include "types/tensor3d.hpp"
+#include <memory>
+#include <opencv2/opencv.hpp>
 
 class NNInterface {
 public:
-    NNInterface(const ModelConfig& model_config);
+    NNInterface(const std::shared_ptr<ModelConfig>& model_config);
     bool Initialize(); // TODO: Define an asynchronous version
     bool Run(std::shared_ptr<Tensor3D<float>> input_tensor); // TODO: Define an asynchronous version | Assuming single input
-    // bool Run(cv::Mat& input_tensor); // TODO: integrate opencv
+    bool Run(cv::Mat& input_image);
     std::vector<Tensor3D<float>> GetOutput(const std::vector<std::string> output_layer_names);
     ~NNInterface();
 
 private:
-    ModelConfig model_config_;
+    std::shared_ptr<ModelConfig> model_config_;
     enum State {
         NONE,
         INITIALIZING,

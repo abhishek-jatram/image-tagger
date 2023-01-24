@@ -15,7 +15,8 @@ enum ModelPlatform {
     PYTORCH
 };
 // Order of the ModelPlatformStr is dependent on the order of ModelPlatform
-static const char* kModelPlatformStr[] = {
+static const std::vector<std::string>
+kModelPlatformStr = {
     "TENSORFLOW",
     "TENSORFLOWLITE",
     "PYTORCH"
@@ -26,19 +27,32 @@ enum ModelType {
     OBJECTDETECTOR,
     SEGMENTER
 };
+// Order of the kModelTypeStr is dependent on the order of ModelType
+static const std::vector<std::string>
+kModelTypeStr = {
+    "CLASSIFIER",
+    "OBJECTDETECTOR",
+    "SEGMENTER"
+};
 
 struct Shape {
     size_t width, height, depth;
     Shape(size_t w, size_t h, size_t d):
         width(w), height(h), depth(d){}
+    Shape(){}
 };
 
-struct ModelConfig {
+class ModelConfig {
+public:
     std::string path;
     ModelPlatform platform;
     ModelType type;
     Shape input_shape;
     std::shared_ptr<MappingInfo> mapping_info;
+    std::vector<std::string> output_layer_names;
+
+    // FromFile(std::string& config_file);
+    ModelConfig(std::string& config_data, std::string& key, std::shared_ptr<MappingInfo> mapping_info);
 };
 
 class Context {

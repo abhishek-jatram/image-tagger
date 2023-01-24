@@ -1,7 +1,10 @@
 #ifndef __UTILS_IMAGE_UTILS__
 #define __UTILS_IMAGE_UTILS__
-// #include <opencv/opencv2.h>
-// #include "types/tensor3d.hpp"
+#include <opencv2/opencv.hpp>
+#include "types/tensor3d.hpp"
+#include <memory>
 
-// bool convertMatToTensor3D(cv::Mat& mat, Tensor3D<float> tensor);
+namespace ImageUtils {
+    bool ConvertMatToTensor3D(const cv::Mat mat, std::shared_ptr<Tensor3D<float>>& tensor);
+}
 #endif // __UTILS_IMAGE_UTILS__
