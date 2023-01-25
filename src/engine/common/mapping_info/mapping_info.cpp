@@ -53,3 +53,9 @@ float MappingInfo::GetDisplayThreshold(const std::string& display_tag) {
         return display_thresholds_[display_tag];
     return {};
 }
+
+size_t MappingInfo::NoOfBaselineTagsOf(const std::string& display_tag) {
+    if (display2baseline_.find(display_tag) == display2baseline_.end())
+        return 0;
+    return display2baseline_[display_tag].size();
+}

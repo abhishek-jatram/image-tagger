@@ -14,6 +14,7 @@ public:
     std::vector<std::string> GetDisplayTagsOf(const std::string& baseline_tag);
     std::vector<std::string> GetBaselineTagsOf(const std::string& display_tag);
     float GetDisplayThreshold(const std::string& display_tag);
+    size_t NoOfBaselineTagsOf(const std::string& display_tag);
 
 private:
     json json_data_;
