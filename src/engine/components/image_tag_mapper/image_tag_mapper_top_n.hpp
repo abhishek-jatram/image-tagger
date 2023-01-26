@@ -1,6 +1,6 @@
 #ifndef __COMPONENTS_IMAGE_TAG_MAPPER_TOP_N__
 #define __COMPONENTS_IMAGE_TAG_MAPPER_TOP_N__
-#include "framework/mapper.hpp"
+#include "image_tag_mapper.hpp"
 #include "common/types/tag.hpp"
 
 // ImageTagMapperTopN can be used to eliminate the bias of baseline counts
@@ -13,5 +13,5 @@ public:
 protected:
     void ComputeScores(std::vector<Tag>& display_tags, std::vector<Tag>& base_tags);
     int n_tops_;
-}
+};
 #endif // __COMPONENTS_IMAGE_TAG_MAPPER_TOP_N__

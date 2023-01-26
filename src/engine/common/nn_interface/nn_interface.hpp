@@ -1,9 +1,9 @@
 #ifndef __NN_INTERFACE__
 #define __NN_INTERFACE__
 
-#include "context.hpp"
+#include "common/context.hpp"
 #include "tflite_backend.hpp"
-#include "types/tensor3d.hpp"
+#include "common/types/tensor3d.hpp"
 #include <memory>
 #include <opencv2/opencv.hpp>
 

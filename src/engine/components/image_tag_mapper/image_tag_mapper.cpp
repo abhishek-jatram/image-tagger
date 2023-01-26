@@ -2,7 +2,7 @@
 #include <algorithm>
 
 ImageTagMapper::ImageTagMapper(Context context, std::string model_name): Mapper<Tag>(context, model_name) {
-    mapper = context.GetMappingInfo(model_name);
+    mapper_ = context.GetMappingInfo(model_name);
 }
 
 ImageTagMapper::~ImageTagMapper() {
@@ -10,9 +10,8 @@ ImageTagMapper::~ImageTagMapper() {
 
 std::vector<Tag> ImageTagMapper::FetchDisplayTags() {
     std::vector<Tag> display_tags;
-    std::vector<std::string> display_tag_labels = mapper->GetDisplayTags();
+    std::vector<std::string> display_tag_labels = mapper_->GetDisplayTags();
     for (int i=0; i<display_tag_labels.size(); i++) {
-        label_to_tag_idx[display_tag_labels[i]] = i;
         Tag display_tag;
         display_tag.label = display_tag_labels[i];
         display_tag.score = 0;
@@ -29,16 +28,16 @@ void ImageTagMapper::ComputeScores(std::vector<Tag>& display_tags, std::vector<T
 
     // display tag score = SUM (baseline scores of display tag) / no. of baseline tags
     for (int i=0 ; i<base_tags.size(); i++) {
-        for (std::string display_tag: mapper->GetDisplayTagsOf(base_tags[i].label)) {
+        for (std::string display_tag: mapper_->GetDisplayTagsOf(base_tags[i].label)) {
             int display_id = label_to_tag_idx[display_tag];
-            display_tags[display_id] += base_tags[i].score;
+            display_tags[display_id].score += base_tags[i].score;
         }
     }
 
     for (int i=0; i<display_tags.size(); i++) {
-        int n_baselines = mapper->NoOfBaselineTagsOf(display_tags[i]);
+        int n_baselines = mapper_->NoOfBaselineTagsOf(display_tags[i].label);
         if (n_baselines)
-            display_tag[i].score /= n_baselines;
+            display_tags[i].score /= n_baselines;
     }
 }
 
@@ -50,7 +49,7 @@ void ImageTagMapper::SortDisplayTags(std::vector<Tag>& display_tags) {
     );
 }
 
-ImageTagMapper::std::vector<Tag> Map(std::vector<Tag>& base_tags) {
+std::vector<Tag> ImageTagMapper::Map(std::vector<Tag>& base_tags) {
     std::vector<Tag> display_tags = FetchDisplayTags();
     ComputeScores(display_tags, base_tags);
     SortDisplayTags(display_tags);

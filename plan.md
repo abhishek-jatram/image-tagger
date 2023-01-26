@@ -23,9 +23,9 @@ The following components are to be developed in this phase:
 - [X] Framework
 - [X] MappingInfo
 - [X] ImageClassifier
-- [ ] ImageTagMapper
-- [ ] ImageTagFilter
-- [ ] SceneTagger
+- [X] ImageTagMapper
+- [X] ImageTagFilter
+- [X] SceneTagger
 - [ ] TaggerFactory
 - [ ] Engine
 

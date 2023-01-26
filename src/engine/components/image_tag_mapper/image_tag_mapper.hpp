@@ -12,7 +12,6 @@ protected:
     std::vector<Tag> FetchDisplayTags();
     void ComputeScores(std::vector<Tag>& display_tags, std::vector<Tag>& base_tags);
     void SortDisplayTags(std::vector<Tag>& display_tags);
-private:
-    std::shared_ptr<MappingInfo> mapper;
-}
+    std::shared_ptr<MappingInfo> mapper_;
+};
 #endif // __COMPONENTS_IMAGE_TAG_MAPPER__

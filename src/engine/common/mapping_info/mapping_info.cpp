@@ -51,7 +51,7 @@ std::vector<std::string> MappingInfo::GetBaselineTagsOf(const std::string& displ
 float MappingInfo::GetDisplayThreshold(const std::string& display_tag) {
     if (display_thresholds_.find(display_tag) != display_thresholds_.end())
         return display_thresholds_[display_tag];
-    return {};
+    return 1.0f; // Let the tag not get filtered-in if it doesn't exist in mapping data
 }
 
 size_t MappingInfo::NoOfBaselineTagsOf(const std::string& display_tag) {

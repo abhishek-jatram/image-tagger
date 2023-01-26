@@ -16,13 +16,14 @@ void ImageTagMapperTopN::ComputeScores(std::vector<Tag>& display_tags, std::vect
     }
 
     // display tag score = SUM (Top-N of its baseline scores) / Top-N
-    int n_baseline_count[display_tags.size()] = {}; // no of baseline considered for each display tag.
+    std::vector<int> n_baseline_count;// no of baseline considered for each display tag.
+    n_baseline_count.reserve(display_tags.size());
     for (int i=0 ; i<base_tags.size(); i++) {
-        for (std::string display_tag: mapper->GetDisplayTagsOf(base_tags[i].label)) {
+        for (std::string display_tag: mapper_->GetDisplayTagsOf(base_tags[i].label)) {
             int display_id = label_to_tag_idx[display_tag];
             if (n_baseline_count[display_id] < n_tops_) {
                 n_baseline_count[display_id]++;
-                display_tags[display_id] += base_tags[i].score;
+                display_tags[display_id].score += base_tags[i].score;
             }
         }
     }
