@@ -1,0 +1,66 @@
+#include "tagger_factory.hpp"
+#include "scene_tagger/scene_tagger.hpp"
+
+#include "components/image_classifier/image_classifier.hpp"
+#include "components/image_tag_mapper/image_tag_mapper.hpp"
+#include "components/image_tag_filterer/image_tag_filterer.hpp"
+
+#include "common/mapping_info/classifier101_mapping_data.hpp"
+
+#define LOG printf
+
+template <typename T>
+std::shared_ptr<Tagger<T>> TaggerFactory<T>::GetTagger(TaggerType tagger_type) {
+    switch (tagger_type) {
+        case SCENE_TAGGER:
+            return GetSceneTagger();
+        default:
+            LOG("The tagger type is not supported yet");
+    }
+    return nullptr;
+}
+
+template <typename T>
+std::shared_ptr<Tagger<T>> TaggerFactory<T>::GetSceneTagger() {
+    static_assert(std::is_base_of<Tag, T>::value, "T must inherit from Tag type");
+    std::string model_name = "classifier101";
+    std::shared_ptr<ModelConfig> model_config = GetModelConfig(model_name);
+    Context context;
+    context.AddModelConfig(model_name, model_config);
+
+    std::shared_ptr<ImageClassifier> classifier = 
+        std::make_shared<ImageClassifier>(context, model_name);
+    std::shared_ptr<ImageTagMapper> mapper = 
+        std::make_shared<ImageTagMapper>(context, model_name);
+    std::shared_ptr<ImageTagFilterer> filterer = 
+        std::make_shared<ImageTagFilterer>(context, model_name);
+
+    return std::make_shared<SceneTagger>(classifier, mapper, filterer);
+}
+
+template <typename T>
+std::shared_ptr<ModelConfig> TaggerFactory<T>::GetModelConfig(std::string& model_name) {
+    if (model_name == "classifier101") {
+        std::string classifier101_config_data = R"(
+            "classifier101_config": {
+                "path" : "classifier101.tf",
+                "platform" : "TENSORFLOWLITE",
+                "type" : "CLASSIFIER",
+                "input-shape" : {
+                    "width" : 300,
+                    "height" : 300,
+                    "depth" : 3
+                }
+                "output-layers" : [
+                    "probs"
+                ]
+            }
+        )";
+        std::shared_ptr<MappingInfo> mapping_info =
+            std::make_shared<MappingInfo>(classifier101_mapping_data);
+        std::shared_ptr<ModelConfig> model_config =
+            std::make_shared<ModelConfig>(classifier101_config_data, "classifier101_config", mapping_info);
+        return model_config;
+    }
+    return nullptr;
+}

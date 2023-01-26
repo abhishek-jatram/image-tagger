@@ -1,5 +1,5 @@
-#ifndef __CLASSIFIER_MAPPING_DATA__
-#ifndef __CLASSIFIER_MAPPING_DATA__
+#ifndef __CLASSIFIER101_MAPPING_DATA__
+#define __CLASSIFIER101_MAPPING_DATA__
 #include <string>
 
 std::string classifier101_mapping_data = R"(
@@ -56,4 +56,4 @@ std::string classifier101_mapping_data = R"(
   ]
 }
 )";
-#endif //__CLASSIFIER_MAPPING_DATA__
+#endif // __CLASSIFIER101_MAPPING_DATA__

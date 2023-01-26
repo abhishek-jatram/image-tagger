@@ -3,9 +3,9 @@
 
 #include "framework/tagger.hpp"
 #include "common/types/tag.hpp"
-#include "components/image_classifier/image_classifier.hpp"
-#include "components/image_tag_mapper/image_tag_mapper.hpp"
-#include "components/image_tag_filterer/image_tag_filterer.hpp"
+#include "framework/model_executor.hpp"
+#include "framework/filterer.hpp"
+#include "framework/mapper.hpp"
 #include <memory>
 #include <opencv2/opencv.hpp>
 

@@ -26,8 +26,8 @@ The following components are to be developed in this phase:
 - [X] ImageTagMapper
 - [X] ImageTagFilter
 - [X] SceneTagger
-- [ ] TaggerFactory
-- [ ] Engine
+- [X] TaggerFactory
+- [X] Engine
 
 ### Notes
 - For implementing Tensor3D<type>, https://github.com/maitek/tensor-cpp/blob/master/tensor.hpp could be referred.
