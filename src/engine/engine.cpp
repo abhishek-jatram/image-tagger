@@ -3,7 +3,7 @@
 
 template <typename T>
 ImageTaggerEngine<T>::ImageTaggerEngine(TaggerType tagger_type) {
-    tagger_ = TaggerFactory<T>::GetTagger(TaggerType::SCENE_TAGGER);
+    tagger_ = TaggerFactory<T>::GetTagger(tagger_type);
 }
 
 template <typename T>

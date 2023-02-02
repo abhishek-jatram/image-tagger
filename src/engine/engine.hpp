@@ -3,6 +3,7 @@
 
 #include <opencv2/opencv.hpp>
 #include <vector>
+#include <memory>
 #include "framework/tagger.hpp"
 
 enum TaggerType {
@@ -17,7 +18,7 @@ public:
     ~ImageTaggerEngine();
     std::vector<T> Execute(cv::Mat image);
 private:
-    Tagger<T> tagger_;
+    std::shared_ptr<Tagger<T>> tagger_;
 };
 
 #endif // __IMAGE_TAGGER_ENGINE__

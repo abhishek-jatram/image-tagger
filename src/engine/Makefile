@@ -11,7 +11,7 @@ INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 INC_FLAGS += -I$(PROJDIR)/src/engine/
 
 LOCAL_LIBS_DIR = $(BUILDDIR)/libs
-LOCAL_LIBS = libcommon.a
+LOCAL_LIBS = libcommon.a libscenetagger.a
 LOCAL_LIB_FLAGS = -L$(LOCAL_LIBS_DIR) $(addprefix -l,$(LOCAL_LIBS))
 
 # OpenCV related
@@ -25,7 +25,7 @@ JSON_INC = $(PROJDIR)/thirdparty/nlohmann/
 JSON_FLAGS = -I$(JSON_INC)
 
 CXX = g++
-CXXFLAGS = -g -std=c++14 -Wall -c
+CXXFLAGS := -g -std=c++14 -Wall -c
 CXXFLAGS += $(INC_FLAGS)
 CXXFLAGS += $(LOCAL_LIB_FLAGS)
 CXXFLAGS += $(OPENCV_FLAGS)
@@ -33,7 +33,10 @@ CXXFLAGS += $(JSON_FLAGS)
 CXXFLAGS += $(COMMON_FLAGS)
 CXXFLAGS += -MMD -MP
 
-SOURCES := $(shell find $(SOURCEDIR) -name '*.cpp' -or -name '*.c' -or -name '*.s')
+# SOURCES := $(shell find $(SOURCEDIR) -name '*.cpp' -or -name '*.c' -or -name '*.s')
+SOURCES := $(PROJDIR)/src/engine/engine.cpp
+SOURCES += $(PROJDIR)/src/engine/taggers/tagger_factory.cpp
+
 OBJECTS = $(addprefix $(OBJECTSDIR), $(patsubst $(PROJDIR)%.cpp,%.o,$(SOURCES)))
 # OBJECTS := $(patsubst $(D)/%.cpp.o,$(D)/%.o,$(SOURCES:%=$(BUILDDIR)/%.o))
 
