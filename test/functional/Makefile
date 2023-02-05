@@ -11,7 +11,7 @@ INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 INC_FLAGS += -I$(PROJDIR)/src/engine/
 
 LOCAL_LIBS_DIR := $(BUILDDIR)/libs
-LOCAL_LIBS := common scenetagger imagetaggerengine  
+LOCAL_LIBS := common scenetagger objecttagger imagetaggerengine
 LOCAL_LIB_FLAGS := -L$(LOCAL_LIBS_DIR) $(addprefix -l,$(LOCAL_LIBS))
 
 

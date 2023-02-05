@@ -3,7 +3,9 @@
 #include <string>
 
 std::string classifier101_mapping_data = R"(
-{  "display-info": [
+{ 
+  "applicable-type": "Tag",
+  "display-info": [
     {
       "label": "DisplayTag1",
       "threshold": 0.5,

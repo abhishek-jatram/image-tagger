@@ -23,7 +23,7 @@ std::shared_ptr<MappingInfo> Context::GetMappingInfo(const std::string& model_na
     return model_config_map_[model_name]->mapping_info;
 }
 
-ModelConfig::ModelConfig(std::string config_data, std::string key, std::shared_ptr<MappingInfo> mapping_info) {
+ModelConfig::ModelConfig(std::string& config_data, std::string key, std::shared_ptr<MappingInfo> mapping_info) {
     json json_data;
     try {
         json_data = json::parse(config_data);

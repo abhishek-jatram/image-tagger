@@ -52,7 +52,7 @@ public:
     std::vector<std::string> output_layer_names;
 
     // FromFile(std::string& config_file);
-    ModelConfig(std::string config_data, std::string key, std::shared_ptr<MappingInfo> mapping_info);
+    ModelConfig(std::string& config_data, std::string key, std::shared_ptr<MappingInfo> mapping_info);
 };
 
 class Context {
