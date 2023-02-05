@@ -46,7 +46,7 @@ bool TFLiteBackend::Invoke(float* input) {
 
 bool TFLiteBackend::FetchOutput(const std::string& layer_name, float** output, size_t& w, size_t& h, size_t& d) {
     // *output = interpreter->typed_output_tensor<float>(0);
-    *output = new float[4];
+    *output = new float[4]{0.85,0.4,0.2,0.02};
     w = 4;
     h = 1;
     d = 1;

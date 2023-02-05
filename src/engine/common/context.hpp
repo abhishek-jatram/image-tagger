@@ -7,7 +7,7 @@
 #include "mapping_info/mapping_info.hpp"
 
 // TODO: Design a logger
-#define LOG printf
+#define LOG(format, ...) printf(format "\n", ##__VA_ARGS__)
 
 enum ModelPlatform {
     TENSORFLOW,
@@ -52,7 +52,7 @@ public:
     std::vector<std::string> output_layer_names;
 
     // FromFile(std::string& config_file);
-    ModelConfig(std::string& config_data, std::string& key, std::shared_ptr<MappingInfo> mapping_info);
+    ModelConfig(std::string config_data, std::string key, std::shared_ptr<MappingInfo> mapping_info);
 };
 
 class Context {

@@ -3,13 +3,18 @@
 
 #include "framework/tagger.hpp"
 #include "engine.hpp"
+#include "common/types/tag.hpp"
+#include "common/types/roi.hpp"
+#include "common/context.hpp"
 
-template <typename T>
 class TaggerFactory {
 public:
+    template <typename T>
     static std::shared_ptr<Tagger<T>> GetTagger(TaggerType tagger_type);
-private:
-    static std::shared_ptr<Tagger<T>> GetSceneTagger();
+protected:
+    static std::shared_ptr<Tagger<Tag>> GetSceneTagger();
+    static std::shared_ptr<Tagger<ROI>> GetObjectTagger();
+
     static std::shared_ptr<ModelConfig> GetModelConfig(std::string& model_name);
 };
 

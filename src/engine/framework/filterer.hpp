@@ -13,7 +13,7 @@ public:
     Filterer(Context context, std::string model_name):
         context_(context), model_name_(model_name) {}
     virtual ~Filterer() {}
-    virtual std::vector<T> Filter(std::vector<T>& entities);
+    virtual std::vector<T> Filter(std::vector<T>& entities) = 0;
 protected:
     Context context_;
     std::string model_name_;

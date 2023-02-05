@@ -7,22 +7,27 @@
 
 #include "common/mapping_info/classifier101_mapping_data.hpp"
 
-#define LOG printf
-
-template <typename T>
-std::shared_ptr<Tagger<T>> TaggerFactory<T>::GetTagger(TaggerType tagger_type) {
+template<> std::shared_ptr<Tagger<Tag>> TaggerFactory::GetTagger<Tag>(TaggerType tagger_type) {
     switch (tagger_type) {
         case SCENE_TAGGER:
             return GetSceneTagger();
         default:
-            LOG("The tagger type is not supported yet");
+            LOG("The tagger type is not supported for Tags");
     }
     return nullptr;
 }
 
-template <typename T>
-std::shared_ptr<Tagger<T>> TaggerFactory<T>::GetSceneTagger() {
-    static_assert(std::is_base_of<Tag, T>::value, "T must inherit from Tag type");
+template<> std::shared_ptr<Tagger<ROI>> TaggerFactory::GetTagger<ROI>(TaggerType tagger_type) {
+    switch (tagger_type) {
+        case OBJECT_TAGGER:
+            return GetObjectTagger();
+        default:
+            LOG("The tagger type is not supported for ROIs");
+    }
+    return nullptr;
+}
+
+std::shared_ptr<Tagger<Tag>> TaggerFactory::GetSceneTagger() {
     std::string model_name = "classifier101";
     std::shared_ptr<ModelConfig> model_config = GetModelConfig(model_name);
     Context context;
@@ -38,22 +43,27 @@ std::shared_ptr<Tagger<T>> TaggerFactory<T>::GetSceneTagger() {
     return std::make_shared<SceneTagger>(classifier, mapper, filterer);
 }
 
-template <typename T>
-std::shared_ptr<ModelConfig> TaggerFactory<T>::GetModelConfig(std::string& model_name) {
+std::shared_ptr<Tagger<ROI>> TaggerFactory::GetObjectTagger() {
+    return nullptr;
+}
+
+std::shared_ptr<ModelConfig> TaggerFactory::GetModelConfig(std::string& model_name) {
     if (model_name == "classifier101") {
         std::string classifier101_config_data = R"(
-            "classifier101_config": {
-                "path" : "classifier101.tf",
-                "platform" : "TENSORFLOWLITE",
-                "type" : "CLASSIFIER",
-                "input-shape" : {
-                    "width" : 300,
-                    "height" : 300,
-                    "depth" : 3
+            {
+                "classifier101_config": {
+                    "path" : "classifier101.tf",
+                    "platform" : "TENSORFLOWLITE",
+                    "type" : "CLASSIFIER",
+                    "input-shape" : {
+                        "width" : 300,
+                        "height" : 300,
+                        "depth" : 3
+                    },
+                    "output-layers" : [
+                        "probs"
+                    ]
                 }
-                "output-layers" : [
-                    "probs"
-                ]
             }
         )";
         std::shared_ptr<MappingInfo> mapping_info =

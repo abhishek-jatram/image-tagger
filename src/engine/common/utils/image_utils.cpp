@@ -10,12 +10,11 @@ namespace ImageUtils {
             img.convertTo(img, CV_32F);
         }
         
-        float* data = (float*) img.data;
         tensor = std::make_shared<Tensor3D<float>>(width, height, n_channels);
         for(int i=0; i<img.rows; i++) {
             for(int j=0; j<img.cols; j++) {
                 for (int k=0; k<img.channels(); k++){
-                    (*tensor)(j,i,k) = data[img.step * j + i + k];
+                    (*tensor)(j,i,k) = img.at<float>(i,j,k);
                 }
             }
         }

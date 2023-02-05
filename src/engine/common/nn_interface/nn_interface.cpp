@@ -19,15 +19,20 @@ bool NNInterface::Initialize() {
     }
     if(model_config_->platform == ModelPlatform::TENSORFLOWLITE) {
         bool status = tflite_backend_->Initialize();
-        state_ = status ? State::INITIALIZATION_FAILED : State::READY_TO_RUN;
+        state_ = status ? State::READY_TO_RUN : State::INITIALIZATION_FAILED;
     }
     else {
         LOG("NNInterface does not support the requested platform (%s) yet", kModelPlatformStr[static_cast<int>(model_config_->platform)].c_str());
+        state_ = State::INITIALIZATION_FAILED;
     }
     return true;
 }
 
 bool NNInterface::Run(std::shared_ptr<Tensor3D<float>> input_tensor) {
+    if (state_ == State::INITIALIZATION_FAILED) {
+        LOG("Cannot run the model, initialization failed");
+        return false;
+    }
     if (state_ != State::READY_TO_RUN && state_ != State::READY_TO_FETCH) {
         LOG("Initialize the model to run it");
         return false;

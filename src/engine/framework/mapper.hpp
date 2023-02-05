@@ -11,7 +11,7 @@ public:
     Mapper(Context context, std::string model_name):
         context_(context), model_name_(model_name) {}
     virtual ~Mapper() {}
-    virtual std::vector<T> Map(std::vector<T>& base_entities);
+    virtual std::vector<T> Map(std::vector<T>& base_entities) = 0;
 protected:
     Context context_;
     std::string model_name_;

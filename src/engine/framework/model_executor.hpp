@@ -13,8 +13,8 @@ public:
     ModelExecutor(const Context& context, std::string model_name):
         context_(context), model_name_(model_name) {}
     virtual ~ModelExecutor() {};
-    virtual bool Run(cv::Mat image);
-    virtual bool GetOutput(std::vector<T>& output);
+    virtual bool Run(cv::Mat image) = 0;
+    virtual bool GetOutput(std::vector<T>& output) = 0;
 protected:
     Context context_;
     std::string model_name_;

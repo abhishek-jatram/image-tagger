@@ -11,15 +11,15 @@ INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 INC_FLAGS += -I$(PROJDIR)/src/engine/
 
 LOCAL_LIBS_DIR = $(BUILDDIR)/libs
-LOCAL_LIBS = libcommon.a libscenetagger.a
+LOCAL_LIBS = common scenetagger
 LOCAL_LIB_FLAGS = -L$(LOCAL_LIBS_DIR) $(addprefix -l,$(LOCAL_LIBS))
 
 # OpenCV related
 OPENCV_INC = /usr/local/include/opencv4
 OPENCV_LIB_DIR = /usr/local/lib/
 OPENCV_LIBS = opencv_core opencv_imgproc
-OPENCV_FLAGS = -L$(OPENCV_LIB_DIR) $(addprefix -l,$(OPENCV_LIBS))
-OPENCV_FLAGS += -I/usr/local/include/opencv4
+OPENCV_LIB_FLAGS = -L$(OPENCV_LIB_DIR) $(addprefix -l,$(OPENCV_LIBS))
+OPENCV_FLAGS = -I/usr/local/include/opencv4
 
 JSON_INC = $(PROJDIR)/thirdparty/nlohmann/
 JSON_FLAGS = -I$(JSON_INC)
@@ -27,11 +27,13 @@ JSON_FLAGS = -I$(JSON_INC)
 CXX = g++
 CXXFLAGS := -g -std=c++14 -Wall -c
 CXXFLAGS += $(INC_FLAGS)
-CXXFLAGS += $(LOCAL_LIB_FLAGS)
+# CXXFLAGS += $(LOCAL_LIB_FLAGS)
 CXXFLAGS += $(OPENCV_FLAGS)
 CXXFLAGS += $(JSON_FLAGS)
 CXXFLAGS += $(COMMON_FLAGS)
 CXXFLAGS += -MMD -MP
+
+LDFLAGS = $(LOCAL_LIB_FLAGS) $(OPENCV_LIB_FLAGS)
 
 # SOURCES := $(shell find $(SOURCEDIR) -name '*.cpp' -or -name '*.c' -or -name '*.s')
 SOURCES := $(PROJDIR)/src/engine/engine.cpp
@@ -47,7 +49,8 @@ dir:
 	mkdir -p $(OBJECTSDIR)
 
 $(TARGET_LIBRARY): $(OBJECTS)
-	ar ru $@ $^
+# ar ru $@ $^
+	ar -r $@ $^
 	ranlib $@
 
 # $(TARGET_EXECUTABLE): $(OBJECTS)
