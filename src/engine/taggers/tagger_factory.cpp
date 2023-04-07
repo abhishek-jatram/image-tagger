@@ -1,6 +1,7 @@
 #include "tagger_factory.hpp"
 #include "scene_tagger/scene_tagger.hpp"
 #include "object_tagger/object_tagger.hpp"
+#include "human_tagger/human_tagger.hpp"
 
 #include "components/image_classifier/image_classifier.hpp"
 #include "components/image_tag_mapper/image_tag_mapper.hpp"
@@ -11,6 +12,7 @@
 
 #include "common/mapping_info/classifier101_mapping_data.hpp"
 #include "common/mapping_info/object_detector_101_mapping_data.hpp"
+#include "common/mapping_info/human_detector_mapping_data.hpp"
 
 template<> std::shared_ptr<Tagger<Tag>> TaggerFactory::GetTagger<Tag>(TaggerType tagger_type) {
     switch (tagger_type) {
@@ -26,6 +28,8 @@ template<> std::shared_ptr<Tagger<ROI>> TaggerFactory::GetTagger<ROI>(TaggerType
     switch (tagger_type) {
         case OBJECT_TAGGER:
             return GetObjectTagger();
+        case HUMAN_TAGGER:
+            return GetHumanTagger();
         default:
             LOG("The tagger type is not supported for ROIs");
     }
@@ -54,12 +58,27 @@ std::shared_ptr<Tagger<ROI>> TaggerFactory::GetObjectTagger() {
     Context context;
     context.AddModelConfig(model_name, model_config);
 
-    std::shared_ptr<ObjectDetector> classifier = 
+    std::shared_ptr<ObjectDetector> detector = 
         std::make_shared<ObjectDetector>(context, model_name);
     std::shared_ptr<ROIFilterer> filterer = 
         std::make_shared<ROIFilterer>(context, model_name);
 
-    return std::make_shared<ObjectTagger>(classifier, filterer);;
+    return std::make_shared<ObjectTagger>(detector, filterer);;
+}
+
+std::shared_ptr<Tagger<ROI>> TaggerFactory::GetHumanTagger() {
+    std::string model_name = "humandetector-hog";
+    std::shared_ptr<ModelConfig> model_config = GetModelConfig(model_name);
+    Context context;
+    context.AddModelConfig(model_name, model_config);
+
+    std::shared_ptr<ObjectDetector> detector = 
+        std::make_shared<ObjectDetector>(context, model_name);
+    std::shared_ptr<ROIFilterer> filterer = 
+        std::make_shared<ROIFilterer>(context, model_name);
+
+    // TODO: Create tracker module and add it to HumanTagger
+    return std::make_shared<HumanTagger>(detector, filterer);
 }
 
 std::shared_ptr<ModelConfig> TaggerFactory::GetModelConfig(std::string& model_name) {
@@ -90,6 +109,18 @@ std::shared_ptr<ModelConfig> TaggerFactory::GetModelConfig(std::string& model_na
                 "output-layers" : [
                     "bounding-boxes"
                 ]
+            },
+            "humandetector-hog": {
+                "path" : "",
+                "platform" : "OPENCV",
+                "type" : "HOG_BASED_PEOPLE_DETECTOR",
+                "input-shape" : {
+                    "width" : 300,
+                    "height" : -1,
+                    "depth" : 3
+                },
+                "output-layers" : [
+                ]
             }
         }
     )";
@@ -105,6 +136,13 @@ std::shared_ptr<ModelConfig> TaggerFactory::GetModelConfig(std::string& model_na
             std::make_shared<MappingInfo>(object_detector_101_mapping_data);
         std::shared_ptr<ModelConfig> model_config =
             std::make_shared<ModelConfig>(models_config_data, "objectdetector101_config", mapping_info);
+        return model_config;
+    }
+    if (model_name == "humandetector-hog") {
+         std::shared_ptr<MappingInfo> mapping_info =
+            std::make_shared<MappingInfo>(human_detector_mapping_data);
+        std::shared_ptr<ModelConfig> model_config =
+            std::make_shared<ModelConfig>(models_config_data, "humandetector-hog", mapping_info);
         return model_config;
     }
     return nullptr;

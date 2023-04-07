@@ -12,27 +12,31 @@
 enum ModelPlatform {
     TENSORFLOW,
     TENSORFLOWLITE,
-    PYTORCH
+    PYTORCH,
+    OPENCV
 };
 // Order of the ModelPlatformStr is dependent on the order of ModelPlatform
 static const std::vector<std::string>
 kModelPlatformStr = {
     "TENSORFLOW",
     "TENSORFLOWLITE",
-    "PYTORCH"
+    "PYTORCH",
+    "OPENCV"
 };
 
 enum ModelType {
     CLASSIFIER,
     OBJECTDETECTOR,
-    SEGMENTER
+    SEGMENTER,
+    HOG_BASED_PEOPLE_DETECTOR
 };
 // Order of the kModelTypeStr is dependent on the order of ModelType
 static const std::vector<std::string>
 kModelTypeStr = {
     "CLASSIFIER",
     "OBJECTDETECTOR",
-    "SEGMENTER"
+    "SEGMENTER",
+    "HOG_BASED_PEOPLE_DETECTOR"
 };
 
 struct Shape {

@@ -3,6 +3,7 @@
 
 #include "common/context.hpp"
 #include "tflite_backend.hpp"
+#include "opencv_backend.hpp"
 #include "common/types/tensor3d.hpp"
 #include <memory>
 #include <opencv2/opencv.hpp>
@@ -17,6 +18,11 @@ public:
     ~NNInterface();
 
 private:
+    Tensor3D<float> get_tensor_from_rects(std::vector<cv::Rect>& rois, std::vector<int>& label_ids, std::vector<double>& scores);
+    cv::Mat preprocess_image(cv::Mat image);
+    double resize_factor_x = 1; // target size / source size
+    double resize_factor_y = 1;
+
     std::shared_ptr<ModelConfig> model_config_;
     enum State {
         NONE,
@@ -29,6 +35,8 @@ private:
     State state_ = NONE;
 
     std::unique_ptr<TFLiteBackend> tflite_backend_;
+    std::unique_ptr<OpenCVBackend> opencv_backend_;
+
 };
 
 #endif // __NN_INTERFACE__

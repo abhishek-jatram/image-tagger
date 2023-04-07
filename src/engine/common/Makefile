@@ -12,7 +12,7 @@ INC_FLAGS += -I$(PROJDIR)/src/engine/
 
 OPENCV_INC = /usr/local/include/opencv4
 OPENCV_LIB_DIR = /usr/local/lib/
-OPENCV_LIBS = opencv_core opencv_imgproc
+OPENCV_LIBS = opencv_core opencv_imgproc opencv_objdetect
 OPENCV_LIB_FLAGS = -L$(OPENCV_LIB_DIR) $(addprefix -l,$(OPENCV_LIBS))
 OPENCV_FLAGS = -I/usr/local/include/opencv4
 

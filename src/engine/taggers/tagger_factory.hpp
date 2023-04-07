@@ -14,6 +14,7 @@ public:
 protected:
     static std::shared_ptr<Tagger<Tag>> GetSceneTagger();
     static std::shared_ptr<Tagger<ROI>> GetObjectTagger();
+    static std::shared_ptr<Tagger<ROI>> GetHumanTagger();
 
     static std::shared_ptr<ModelConfig> GetModelConfig(std::string& model_name);
 };

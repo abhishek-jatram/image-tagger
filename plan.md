@@ -46,7 +46,8 @@ Integrate **tensorflow** with NNInterface and execute the engine on actual model
 - [ ] Add logger
 
 ## Next Phases
-- [ ] Adding ObjectDetector components
+- [X] Adding ObjectDetector components
+- [X] Adding HumanDetector that uses opencv as backend to detect humans
 - [ ] Define ImageTagger which uses both classifier & object detector
 - [ ] Use builder pattern to construct components during runtime.
 - [ ] Optimizing the runtime by understanding the bottlenecks and measuring all critical operations.

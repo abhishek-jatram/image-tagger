@@ -11,14 +11,14 @@ INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 INC_FLAGS += -I$(PROJDIR)/src/engine/
 
 LOCAL_LIBS_DIR := $(BUILDDIR)/libs
-LOCAL_LIBS := common scenetagger objecttagger imagetaggerengine
+LOCAL_LIBS := common scenetagger objecttagger humantagger imagetaggerengine
 LOCAL_LIB_FLAGS := -L$(LOCAL_LIBS_DIR) $(addprefix -l,$(LOCAL_LIBS))
 
 
 # OpenCV related
 # OPENCV_INC = /usr/local/include/opencv4
 OPENCV_LIB_DIR = /usr/local/lib/
-OPENCV_LIBS = opencv_core opencv_imgproc opencv_imgcodecs opencv_highgui opencv_videoio
+OPENCV_LIBS = opencv_core opencv_imgproc opencv_imgcodecs opencv_highgui opencv_videoio opencv_objdetect
 OPENCV_LIB_FLAGS = -L$(OPENCV_LIB_DIR) $(addprefix -l,$(OPENCV_LIBS))
 OPENCV_FLAGS += -I/usr/local/include/opencv4
 

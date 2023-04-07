@@ -8,7 +8,8 @@
 
 enum TaggerType {
     SCENE_TAGGER,
-    OBJECT_TAGGER
+    OBJECT_TAGGER,
+    HUMAN_TAGGER
 };
 
 template <typename T>
