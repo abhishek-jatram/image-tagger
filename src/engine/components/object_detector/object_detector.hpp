@@ -10,8 +10,10 @@ public:
     ObjectDetector(Context context, std::string model_name);
     ~ObjectDetector();
 
-    bool Run(cv::Mat image);
-    bool GetOutput(std::vector<ROI>& output);
+    virtual bool Run(cv::Mat image);
+    virtual bool GetOutput(std::vector<ROI>& output);
+protected:
+    ObjectDetector();
 };
 
 #endif // __COMPONENTS_OBJECT_DETECTOR__

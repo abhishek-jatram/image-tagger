@@ -19,6 +19,7 @@ protected:
     Context context_;
     std::string model_name_;
     std::shared_ptr<NNInterface> nn_interface_;
+    ModelExecutor(){}
 };
 
 #endif // __FRAMEWORK_MODEL_EXECUTOR__

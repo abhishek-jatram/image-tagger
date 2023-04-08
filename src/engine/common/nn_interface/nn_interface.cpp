@@ -55,10 +55,10 @@ bool NNInterface::Run(std::shared_ptr<Tensor3D<float>> input_tensor) {
 cv::Mat NNInterface::preprocess_image(cv::Mat image) {
     Shape input_shape = model_config_->input_shape;
     if (input_shape.width == -1 && input_shape.height == -1) {
-        resize_factor_x = 1;
-        resize_factor_y = 1;
+        resize_factor_x = 1.0;
+        resize_factor_y = 1.0;
     }
-    if (input_shape.width == -1) {
+    else if (input_shape.width == -1) {
         resize_factor_y = (double) input_shape.height / image.rows;
         resize_factor_x = resize_factor_y;
     }
@@ -70,8 +70,8 @@ cv::Mat NNInterface::preprocess_image(cv::Mat image) {
         resize_factor_x = (double) input_shape.width / image.cols;
         resize_factor_y = (double) input_shape.height / image.rows;
     }
-
-    cv::resize(image, image, cv::Size(), resize_factor_x, resize_factor_y);
+    if (resize_factor_x != 1.0 && resize_factor_y != 1.0)
+        cv::resize(image, image, cv::Size(), resize_factor_x, resize_factor_y);
     // handle depth
     return image;
 }

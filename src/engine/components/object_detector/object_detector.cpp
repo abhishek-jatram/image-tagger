@@ -8,6 +8,7 @@ ObjectDetector::ObjectDetector(Context context, std::string model_name):
         nn_interface_->Initialize();
     }
 }
+ObjectDetector::ObjectDetector(){}
 
 ObjectDetector::~ObjectDetector(){
 }

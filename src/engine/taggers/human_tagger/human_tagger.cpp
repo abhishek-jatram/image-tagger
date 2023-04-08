@@ -1,8 +1,10 @@
 #include "human_tagger.hpp"
+#include "components/object_detector/wrapper/with_object_tracker.hpp"
 
 HumanTagger::HumanTagger(std::shared_ptr<ModelExecutor<ROI>> human_detector,
     std::shared_ptr<Filterer<ROI>> filterer):
         Tagger<ROI>(),human_detector_(human_detector), filterer_(filterer){
+    human_detector_ = std::make_shared<WithObjectTracker>(human_detector_);
 }
 
 HumanTagger::~HumanTagger() {

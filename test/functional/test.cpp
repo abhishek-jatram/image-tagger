@@ -79,13 +79,11 @@ void test_object_tagger() {
 
 void test_human_tagger() {
     ImageTaggerEngine<ROI> engine(TaggerType::HUMAN_TAGGER);
-    // cv::Mat image(640, 480, CV_8UC3);
-    // randu(image, cv::Scalar(0, 0, 0), cv::Scalar(255, 255, 255));
-    cv::Mat image = cv::imread("input_data/person.png");
 
-    std::vector<ROI> rois = engine.Execute(image);
-    std::cout << "ROIs found: " << rois.size() << "\n";
-    display_output_rois(image, rois);
+    // cv::Mat image = cv::imread("input_data/person.png");
+    // std::vector<ROI> rois = engine.Execute(image);
+    // std::cout << "ROIs found: " << rois.size() << "\n";
+    // display_output_rois(image, rois);
 
     cv::VideoCapture cap("input_data/person_walking_720.mp4");
     cv::Mat current_frame;
