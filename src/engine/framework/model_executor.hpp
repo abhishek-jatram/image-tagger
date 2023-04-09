@@ -15,6 +15,7 @@ public:
     virtual ~ModelExecutor() {};
     virtual bool Run(cv::Mat image) = 0;
     virtual bool GetOutput(std::vector<T>& output) = 0;
+    virtual bool Finetune(std::vector<T>& final_output) = 0;
 protected:
     Context context_;
     std::string model_name_;

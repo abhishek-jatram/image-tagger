@@ -12,6 +12,7 @@ public:
 
     virtual bool Run(cv::Mat image);
     virtual bool GetOutput(std::vector<ROI>& output);
+    virtual bool Finetune(std::vector<ROI>& final_output);
 protected:
     ObjectDetector();
 };

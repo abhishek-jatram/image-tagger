@@ -46,3 +46,7 @@ bool ImageClassifier::convertToBaselineTags(std::vector<float> probs, std::vecto
     }
     return true;
 }
+
+bool ImageClassifier::Finetune(std::vector<Tag>& final_output) {
+    return true;
+}

@@ -4,7 +4,7 @@
 HumanTagger::HumanTagger(std::shared_ptr<ModelExecutor<ROI>> human_detector,
     std::shared_ptr<Filterer<ROI>> filterer):
         Tagger<ROI>(),human_detector_(human_detector), filterer_(filterer){
-    human_detector_ = std::make_shared<WithObjectTracker>(human_detector_);
+    human_detector_ = std::make_shared<WithObjectTracker>(human_detector_, WithObjectTracker::CSRT);
 }
 
 HumanTagger::~HumanTagger() {
@@ -23,6 +23,8 @@ std::vector<ROI> HumanTagger::Execute(cv::Mat image) {
 
     // Filter ROIs
     output_rois = filterer_->Filter(output_rois);
+
+    human_detector_->Finetune(output_rois);
 
     return output_rois;
 }

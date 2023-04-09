@@ -14,6 +14,7 @@ ObjectDetector::~ObjectDetector(){
 }
 
 bool ObjectDetector::Run(cv::Mat image) {
+LOG("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
     return nn_interface_->Run(image);
 }
 
@@ -46,5 +47,9 @@ bool ObjectDetector::GetOutput(std::vector<ROI>& output) {
     }
     //   apply nms
     //   apply labels
+    return true;
+}
+
+bool ObjectDetector::Finetune(std::vector<ROI>& final_output) {
     return true;
 }

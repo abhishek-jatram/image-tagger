@@ -13,8 +13,10 @@ public:
     WithObjectTracker(std::shared_ptr<ModelExecutor<ROI>> detector, TrackerType type = TrackerType::CSRT);
     ~WithObjectTracker();
 
-    virtual bool Run(cv::Mat image);
-    virtual bool GetOutput(std::vector<ROI>& output);
+    bool Run(cv::Mat image);
+    bool GetOutput(std::vector<ROI>& output);
+    bool Finetune(std::vector<ROI>& final_output);
+
 private:
     std::shared_ptr<ModelExecutor<ROI>> detector_;
     bool reset_;
@@ -24,10 +26,16 @@ private:
     cv::Ptr<cv::Tracker> tracker_;
     cv::Ptr<cv::MultiTracker> multi_tracker_;
     TrackerType tracker_type_;
-    cv::Ptr<cv::Tracker> create_tracker(TrackerType type);
+    std::vector<ROI> prev_tracked_rois_;
 
     int kTrackerInputSize = 200;
+    double kMaxCentroidDeviation = kTrackerInputSize/10;
     double scale_ratio_ = 1.0; // target_size / source_size
+
+    cv::Ptr<cv::Tracker> create_tracker(TrackerType type);
+    double get_avg_centroid_distance(std::vector<ROI>& rois1, std::vector<ROI>& rois2);
+    double get_max_centroid_distance(std::vector<ROI>& rois1, std::vector<ROI>& rois2);
+
 
 };
 #endif // __COMPONENT_WRAPPER_OBJECT_TRACKER__

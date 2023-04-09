@@ -12,6 +12,7 @@ public:
 
     bool Run(cv::Mat image);
     bool GetOutput(std::vector<Tag>& output);
+    bool Finetune(std::vector<Tag>& final_output);
 private:
     bool convertToBaselineTags(std::vector<float> probs, std::vector<Tag>& output);
 };

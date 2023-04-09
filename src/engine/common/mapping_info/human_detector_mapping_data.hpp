@@ -11,7 +11,7 @@ std::string human_detector_mapping_data = R"(
       "label": "human",
       "min-area-to-image-ratio": 0.3,
       "max-area-to-image-ratio": 0.8,
-      "threshold": 0.4,
+      "threshold": 0.6,
       "min-iou-to-reject": 0.3
     }
   ]

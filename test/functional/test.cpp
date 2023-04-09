@@ -6,6 +6,7 @@
 #include "common/types/tag.hpp"
 #include "common/types/roi.hpp"
 #include <vector>
+#include <algorithm>
 
 void display_output_tags(cv::Mat image, std::vector<Tag> output) {
     int height = image.rows;
@@ -28,9 +29,11 @@ void display_output_tags(cv::Mat image, std::vector<Tag> output) {
 }
 
 void display_output_rois(cv::Mat image, std::vector<ROI> output, int wait_key=0) {
+    double scale_ratio = std::min(1.0, 720.0 / std::max(image.cols, image.rows));
+    cv::resize(image, image, cv::Size(), scale_ratio, scale_ratio);
     // TODO: Add white background behind the text
     for(int i=0; i<output.size(); i++) {
-        cv::Rect box(output[i].x1, output[i].y1, output[i].x2 - output[i].x1 + 1, output[i].y2 - output[i].y1 + 1);
+        cv::Rect box(output[i].x1 * scale_ratio, output[i].y1 * scale_ratio, output[i].width() * scale_ratio, output[i].height() * scale_ratio);
         cv::rectangle(image, box, cv::Scalar(0,255,0), 3);
         cv::Scalar color(20,230,50);
 
@@ -93,6 +96,8 @@ void test_human_tagger() {
         display_output_rois(current_frame, rois, 1);
         cap >> current_frame;
     }
+    cap.release();
+    cv::destroyAllWindows();
 }
 
 int main() {
